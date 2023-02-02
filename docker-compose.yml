@@ -1,0 +1,22 @@
+version: "3"
+services:
+  flask:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8090:5000"
+
+  db:
+    image: mariadb:10.9.4
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE: example
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db-password
+    secrets:
+      - db-password
+      
+secrets:
+  db-password:
+    file: db-password
